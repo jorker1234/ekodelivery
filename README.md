@@ -6,11 +6,11 @@ Web application for compute the delivery cost of certain route, the number of po
 
 ----------
 
-###Installation
+### Installation
 Before installing, [download and install Node.js.](https://nodejs.org/en/download/) 
 
 ```
-python -m trax.trainer --config_file=$PWD/trax/configs/mlp_mnist.gin
+git clone https://github.com/jorker1234/ekodelivery.git
 ```
 
 ### Running
@@ -20,6 +20,9 @@ use nodejs command for run application
 node app.js
 ```
 then open web browser http://localhost:3000/ to start Eko Delivery Service
+
+### How to use
+![Calculate Delivery Cost Page](https://1drv.ms/u/s!Ajzdq9HDGAmvg3Qmxo14nxl9kAxu)
 
 ### File Structure
 * **controllers/** - controller for main logic
@@ -118,6 +121,6 @@ use jest for test controller
 ```
 npm test
 ```
-###Authors
+### Authors
 * **Watcharpong Rungchomkum**
 
