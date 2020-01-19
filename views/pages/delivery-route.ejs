@@ -1,5 +1,10 @@
 <%- include('../partials/header'); %>
 <script>
+    const init = () => {
+        $("#btnInfo").popover({
+            container: 'body'
+        })
+    }
     const calculateCheapest = () => {
         const maxStop = $("#txtMaxStop").val();
         const maxCost = $("#txtMaxCost").val();
@@ -9,6 +14,7 @@
             maxStop: maxStop,
             maxCost: maxCost,
             noOfSameRoute: $("#ddlSameRoute").val(),
+            enableSameTo: $("#cbSameTo").is(":checked"),
         };
         fetch("/api/deliveryPosible", {
             method: "POST",
@@ -93,13 +99,13 @@
                 <div class="col">                           
                     <div class="form-group">
                         <label for="maxStop">Max Stop (0 is no max stop)</label>
-                        <input class="form-control text-right" name="maxStop" type="number" min=0 max=20 id="txtMaxStop" value=0 />
+                        <input class="form-control text-right" name="maxStop" type="number" min="0" id="txtMaxStop" value="0" />
                     </div>
                 </div>
                 <div class="col">                           
                     <div class="form-group">
                         <label for="maxCost">Max Cost (0 is no max cost)</label>
-                        <input class="form-control text-right" name="maxCost" type="number" min=0 max=1000 id="txtMaxCost" value=0 />
+                        <input class="form-control text-right" name="maxCost" type="number" min="0" id="txtMaxCost" value="0" />
                     </div>
                 </div>
                 <div class="col">
@@ -109,9 +115,17 @@
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
                         </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <a href="#" type="button" id="btnInfo" data-container="body" data-toggle="popover" data-placement="top" title="Example E to E" data-content="Off = E-B-E | On = E-B-E-A-D-E">
+                                Enable same to town 
+                        </a>
+                        <input class="form-control" name="sameTo" type="checkbox" id="cbSameTo" />
+                        
+                        
                     </div>
                 </div>
             </div>
@@ -141,3 +155,4 @@
     </div>
 </div>
 <%- include('../partials/footer'); %>
+<script>init();</script>

@@ -117,31 +117,22 @@ const getDirectRoutes = (criteria, steps = [], results = []) => {
             continue;
         }
         
-        // if(route.to === criteria.to){
-        //     results.push(newSteps);
-        // }
-
-        // const newCriteria = {
-        //     from: route.to,
-        //     to: criteria.to,
-        //     maxStop: criteria.maxStop,
-        //     maxCost: criteria.maxCost,
-        //     noOfSameRoute: criteria.noOfSameRoute,
-        // }
-        // getDirectRoutes(newCriteria, newSteps, results);
-
         if(route.to === criteria.to){
             results.push(newSteps);
-        }else {
-            const newCriteria = {
-                from: route.to,
-                to: criteria.to,
-                maxStop: criteria.maxStop,
-                maxCost: criteria.maxCost,
-                noOfSameRoute: noOfSameRoute,
+            if(!criteria.enableSameTo){
+                continue;
             }
-            getDirectRoutes(newCriteria, newSteps, results);
         }
+
+        const newCriteria = {
+            from: route.to,
+            to: criteria.to,
+            maxStop: criteria.maxStop,
+            maxCost: criteria.maxCost,
+            noOfSameRoute: criteria.noOfSameRoute,
+            enableSameTo: criteria.enableSameTo,
+        }
+        getDirectRoutes(newCriteria, newSteps, results);
     }
     return results;
 }
@@ -161,7 +152,8 @@ const getPosibleDelivery = (req, res) => {
     const maxStop = req.body.maxStop || 0;
     const maxCost = req.body.maxCost || 0;
     const noOfSameRoute = req.body.noOfSameRoute || 1;
-    if(isNaN(maxStop) || isNaN(maxCost) || isNaN(noOfSameRoute) || maxStop < 0 || maxCost < 0 || noOfSameRoute < 0){
+    const enableSameTo = req.body.enableSameTo || false;
+    if(isNaN(maxStop) || isNaN(maxCost) || isNaN(noOfSameRoute) || maxStop < 0 || maxCost < 0 || noOfSameRoute < 0|| typeof(enableSameTo) != "boolean"){
         res.send(result);
         return;
     }
@@ -171,6 +163,7 @@ const getPosibleDelivery = (req, res) => {
         maxStop: maxStop,
         maxCost: maxCost,
         noOfSameRoute: noOfSameRoute,
+        enableSameTo: enableSameTo,
     }
     const routes = getDirectRoutes(criteria);
     result.hasError = routes == null || routes.length === 0;

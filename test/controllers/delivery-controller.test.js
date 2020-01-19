@@ -12,7 +12,7 @@ const getRequestMockup = (data) => {
     }
 }
 
-const isValidRoutes = (from, to, routes) =>{
+const isValidRoutes = (from, to, routes, noOfSameRoute = 1) =>{
     for(let i = 0; i < routes.length; i++){
         const routeSteps = routes[i];
         if(routeSteps[0].from !== from){
@@ -28,6 +28,10 @@ const isValidRoutes = (from, to, routes) =>{
                 continue;
             }
             if(route.from !== stepTo){
+                return false;
+            }
+            const noOfDuplicateRoute = routeSteps.filter(o => o === route).length;
+            if(noOfDuplicateRoute > noOfSameRoute){
                 return false;
             }
             stepTo = route.to;
@@ -331,17 +335,75 @@ describe("2. Test calculate number of possible delivery route", () => {
         expect(res.data.hasError).toBeTruthy();
     });
 
-    test('Send {from: "E", to: "E", noOfSameRoute: 2} equal 30', () => {
+    test('Send {from: "E", to: "D", enableSameTo: "A"} has error', () => {
+        const criteria = {
+            from: "E",
+            to: "E",
+            enableSameTo: "A",
+        }
+        const req = getRequestMockup(criteria);
+        const res = new ResponseMockup();
+        controller.getPosibleDelivery(req, res);
+        expect(res.data.hasError).toBeTruthy();
+    });
+
+    test('Send {from: "E", to: "E", noOfSameRoute: 2, enableSameTo: true} equal 138', () => {
         const criteria = {
             from: "E",
             to: "E",
             noOfSameRoute: 2,
+            enableSameTo: true,
         }
         const req = getRequestMockup(criteria);
         const res = new ResponseMockup();
         controller.getPosibleDelivery(req, res);
         expect(res.data.hasError).toBeFalsy();
-        expect(res.data.routes.length).toBe(30)
+        expect(res.data.routes.length).toBe(138)
+    });
+
+    test('Send {from: "E", to: "E", noOfSameRoute: 2, enableSameTo: true} route is valid', () => {
+        const criteria = {
+            from: "E",
+            to: "E",
+            noOfSameRoute: 2,
+            enableSameTo: true,
+        }
+        const req = getRequestMockup(criteria);
+        const res = new ResponseMockup();
+        controller.getPosibleDelivery(req, res);
+        expect(res.data.hasError).toBeFalsy();
+        expect(isValidRoutes(criteria.from, criteria.to, res.data.routes, criteria.noOfSameRoute)).toBeTruthy();
+    });
+
+    test('Send {from: "E", to: "E", maxCost: 19, noOfSameRoute: 3, enableSameTo: true} equal 29', () => {
+        const criteria = {
+            from: "E",
+            to: "E",
+            maxCost: 19,
+            noOfSameRoute: 3,
+            enableSameTo: true,
+        }
+        const req = getRequestMockup(criteria);
+        const res = new ResponseMockup();
+        controller.getPosibleDelivery(req, res);
+        expect(res.data.hasError).toBeFalsy();
+        expect(res.data.routes.length).toBe(29)
+    });
+
+    test('Send {from: "E", to: "E", maxCost: 19, noOfSameRoute: 3, enableSameTo: true} route is valid', () => {
+        const criteria = {
+            from: "E",
+            to: "E",
+            maxCost: 19,
+            noOfSameRoute: 3,
+            enableSameTo: true,
+        }
+        const req = getRequestMockup(criteria);
+        const res = new ResponseMockup();
+        controller.getPosibleDelivery(req, res);
+        expect(res.data.hasError).toBeFalsy();
+        expect(getMaxCost(res.data.routes)).toBeLessThanOrEqual(criteria.maxCost);
+        expect(isValidRoutes(criteria.from, criteria.to, res.data.routes, criteria.noOfSameRoute)).toBeTruthy();
     });
 });
 

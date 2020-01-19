@@ -22,7 +22,57 @@ node app.js
 then open web browser http://localhost:3000/ to start Eko Delivery Service
 
 ### How to use
-![Calculate Delivery Cost Page](https://1drv.ms/u/s!Ajzdq9HDGAmvg3Qmxo14nxl9kAxu)
+#### Calculate the delivery cost
+ open web browser http://localhost:3000/
+
+![image](https://drive.google.com/uc?export=view&id=1j8w-VaPDbMU4fZAsFJjYJDXlpBa43759)
+
+* **From Town** (drop down list) - select from town
+* **Target Town** (drop down list) - select target town
+* **Add Target** (Button) - add more target town
+* **x** (delete button) - delete target town (will show when target town is more then 1)
+* **Calculate** (Button) - calculate cost from criteria
+* **Result** - will show no of cost in blue box
+
+#### Calculate the number of possible delivery route
+open web browser http://localhost:3000/deliveryroute
+![image](https://drive.google.com/uc?export=view&id=1EKhsbtwsrYjWtb5FmfRTV8r1FIGTg6g7)
+
+* **From** (drop down list) - select from town
+* **To** (drop down list) - select to town
+* **Max Stop** (numeric textbox) - number of max stop (0 is no limit max stop)
+* **Max Cost** (numeric textbox) - number of max cost (0 is no limit max cost)
+* **No. of use the same route** (drop down list) - number of use the same route (default is 1)
+* **Enable same to town** (checkbox) - enable/disable can stop when to town (please example note below)
+*  **Calculate** (button) - Calculate number of possible from criteria
+* **Result** - will show no of cost in blue box , Show more detail from **Show Detail** (Button)
+* **Detail List** - will show each delivery route (left) and total cost (right)
+
+```
+Note from E to E
+1. Disable same to town result is: E-B-E
+2. Enable same to town result is: E-B-E-A-D-E
+```
+
+```
+Example. from E to E and cost is less then 20 and same delivery route
+Criteria is
+1.From - E
+2.To - E
+3.Max Stop - 0
+4.Max Cost - 19
+5.No. of use the same route - 3
+6.Enable same to town - On
+```
+#### Calculate the cheapest delivery route
+open web browser http://localhost:3000/deliverycheap
+![image](https://drive.google.com/uc?export=view&id=1O-dQ9eUH8J-OnPS7VJGO6z-oZ1RiEzFD)
+
+* **From** (drop down list) - select from town
+* **To** (drop down list) - select to town
+*  **Calculate** (button) - Calculate cheapest cost from criteria
+* **Result** - will show no of cost in blue box , Show more detail from **Show Detail** (Button)
+* **Detail List** - will show route cheapest cost each step (left) and cost (right)
 
 ### File Structure
 * **controllers/** - controller for main logic
@@ -65,6 +115,7 @@ Output Example
 		* **maxStop** - no. of max stop. default is 0. (0 is mean no max stop)
 		* **maxCost** - no. of max cost delivery route. default is 0. (0 is mean no max cost)
 		* **noOfSameRoute** - no. of use the same route. default is 1.
+		* **enableSameTo** - enable/disable can stop when to town (Example E-E | off is E-B-E, on is E-B-E-A-D-E)
 	* Output
 		* **hasError** - has error.
 		* **routes** - all routes of possible delivery route between two towns.
@@ -75,7 +126,8 @@ Input Example
 	to: "D",
 	maxStop: 4,
 	maxCost: 0,
-	noOfSameRoute: 1
+	noOfSameRoute: 1,
+	enableSameTo: false,
 }
 
 Output Example
