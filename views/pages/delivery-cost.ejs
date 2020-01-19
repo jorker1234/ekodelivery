@@ -1,0 +1,106 @@
+<%- include('../partials/header'); %>
+<script>
+    const calculateCost = () => {
+        const targets = [];
+        $(".ddlTarget").each((i, ddl) => {
+            targets.push($(ddl).val());
+        });
+        const criteria = {
+            targets: targets
+        };
+        fetch("/api/deliveryCost", {
+            method: "POST",
+            body: JSON.stringify(criteria),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        }).then((response) => response.json())
+        .then((data) => {
+            if(data.hasError){
+                $("#errorBox").removeClass("d-none");
+                $("#resultBox").addClass("d-none");
+            }else {
+                $("#errorBox").addClass("d-none");
+                $("#resultBox").removeClass("d-none");
+                const message = `Cost is <b>${data.cost}</b>`;
+                $("#result").html(message);
+            }
+        }).catch(err => {
+            $("#errorBox").removeClass("d-none");
+            $("#resultBox").addClass("d-none");
+        });
+    }
+    const deleteTarget = (e) => {
+        $(e).parents(".target-template").remove();
+        if($(".target-template").length == 1){
+            $(".target-template .input-group-prepend").addClass("d-none");
+        }
+    }
+    const addTarget = () => {
+        const template = $(".target-template:last").clone();
+        $("#criteria").append(template);
+        $(".target-template .input-group-prepend").removeClass("d-none");
+    }
+</script>
+<div class="container">
+    <div class="row">
+        <div class="col m-3 py-3 criteria-box">
+            <div class="row">
+                <div class="col">
+                    <h3>Calculate the delivery cost</h3>
+                </div>
+            </div>
+            <div class="row" id="criteria">
+                <div class="col-6">                           
+                    <div class="form-group">
+                        <label for="from">From Town</label>
+                        <select class="form-control ddlTarget" name="from">
+                            <option>A</option>
+                            <option>B</option>
+                            <option>C</option>
+                            <option>D</option>
+                            <option>E</option>
+                            <option>F</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6 target-template">
+                    <label for="to">Target Town</label>
+                    <div class="input-group">
+                        <select class="form-control ddlTarget">
+                            <option>A</option>
+                            <option>B</option>
+                            <option>C</option>
+                            <option>D</option>
+                            <option>E</option>
+                            <option>F</option>
+                        </select>
+                        <div class="input-group-prepend d-none">
+                            <button type="button" class="btn btn-danger" onclick="deleteTarget(this)">x</button>
+                          </div>
+                      </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-right mt-3">
+                    <button type="button" class="btn btn-secondary" onclick="addTarget()">Add Target</button>
+                    <button type="submit" class="btn btn-primary" onclick="calculateCost()">Calculate</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="alert alert-warning d-none" role="alert" id="errorBox">
+                No Such Route
+            </div>
+            <div class="alert alert-primary d-none" role="alert" id="resultBox">
+                <div class="row">
+                    <div class="col" id="result"></div>               
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../partials/footer'); %>

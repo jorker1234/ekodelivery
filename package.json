@@ -1,0 +1,18 @@
+{
+  "name": "EkoDelivery",
+  "version": "1.0.0",
+  "description": "Web application for compute the delivery cost of certain route, the number of possible delivery route between two towns, and the cost of cheapest delivery route between two towns.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --watchAll --coverage"
+  },
+  "keywords": [],
+  "author": "Watcharpong Rungchomkum",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "jest": "^24.9.0"
+  }
+}

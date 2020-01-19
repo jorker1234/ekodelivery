@@ -1,0 +1,101 @@
+<%- include('../partials/header'); %>
+<script>
+    const calculateCheapest = () => {
+        const criteria = {
+            from: $("#ddlFrom").val(),
+            to: $("#ddlTo").val(),
+        };
+        fetch("/api/deliveryCheap", {
+            method: "POST",
+            body: JSON.stringify(criteria),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        }).then((response) => response.json())
+        .then((data) => {
+            if(data.hasError){
+                $("#errorBox").removeClass("d-none");
+                $("#resultBox").addClass("d-none");
+                $("#detailList").html("");
+            }else {
+                $("#errorBox").addClass("d-none");
+                $("#resultBox").removeClass("d-none");
+                const message = `The cost of cheapest delivery route between ${criteria.from} to ${criteria.to} is <b>${data.cost}</b>`;
+                $("#result").html(message);
+                let liHtml = '';
+                for(let i = 0; i < data.route.length; i++){
+                    const route = data.route[i];
+                    liHtml += `<li class="list-group-item d-flex justify-content-between align-items-center">${route.from} -> ${route.to} <span class="badge badge-primary badge-pill">${route.cost}</span></li>`;
+                }
+                $("#detailList").html(liHtml);
+            }
+        }).catch(err => {
+            $("#errorBox").removeClass("d-none");
+            $("#resultBox").addClass("d-none");
+            $("#detailList").html("");
+        });
+    }
+</script>
+<div class="container">
+    <div class="row">
+        <div class="col m-3 py-3 criteria-box">
+            <div class="row">
+                <div class="col">
+                    <h3>Calculate the cheapest delivery route</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">                           
+                    <div class="form-group">
+                        <label for="from">From</label>
+                        <select class="form-control" name="from" id="ddlFrom">
+                            <option>A</option>
+                            <option>B</option>
+                            <option>C</option>
+                            <option>D</option>
+                            <option>E</option>
+                            <option>F</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="to">To</label>
+                        <select class="form-control" name="to" id="ddlTo">
+                            <option>A</option>
+                            <option>B</option>
+                            <option>C</option>
+                            <option>D</option>
+                            <option>E</option>
+                            <option>F</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-right">
+                    <button type="submit" class="btn btn-primary" onclick="calculateCheapest()">Calculate</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="alert alert-warning d-none" role="alert" id="errorBox">
+                No Such Route
+            </div>
+            <div class="alert alert-primary d-none" role="alert" id="resultBox">
+                <div class="row">
+                    <div class="col-9" id="result"></div>
+                    <div class="col-3 text-right">
+                        <button type="submit" class="btn-primary" data-toggle="collapse" data-target="#detailList">Show Detail</button>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="list-group collapse" id="detailList"></ul>
+        </div>
+    </div>
+</div>
+<%- include('../partials/footer'); %>
