@@ -21,19 +21,19 @@ node app.js
 ```
 then open web browser http://localhost:3000/ to start Eko Delivery Service
 
-###File Structure
+### File Structure
 * **controllers/** - controller for main logic
 * **models/** - class for entity
 * **test/** - unit tests for controllers
 * **views/** - pages and layout folder
 * **app.js** - first file start for control router
 
-###Page Structure
+### Page Structure
 * http://localhost:3000 - for calculate delivery cost of certain route.
 * http://localhost:3000/deliveryroute - for calculate the number of possible delivery route between two towns.
 * http://localhost:3000/deliverycheap - for calculate the cost of cheapest delivery route between two towns.
 
-###Api Structure
+### Api Structure
 * http://localhost:3000/api/deliveryCost - for calculate delivery cost of certain route.
 	* Method: POST
 	* Input: 
