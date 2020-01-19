@@ -82,7 +82,7 @@ open web browser http://localhost:3000/deliverycheap
 
 ### File Structure
 * **controllers/** - controller for main logic
-* **models/** - class for entity
+* **entities/** - class for entity
 * **test/** - unit tests for controllers
 * **views/** - pages and layout folder
 * **app.js** - first file start for control router

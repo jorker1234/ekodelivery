@@ -1,4 +1,4 @@
-const Route = require('../models/Route');
+const Route = require('../entities/Route');
 
 const routes = [
     new Route("A", "B", 1),
