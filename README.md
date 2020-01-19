@@ -9,8 +9,14 @@ Web application for compute the delivery cost of certain route, the number of po
 ### Installation
 Before installing, [download and install Node.js.](https://nodejs.org/en/download/) 
 
+Clone Eko Delivery
 ```
 git clone https://github.com/jorker1234/ekodelivery.git
+```
+
+Install node module
+```
+npm install
 ```
 
 ### Running
