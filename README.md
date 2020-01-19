@@ -32,7 +32,7 @@ then open web browser http://localhost:3000/ to start Eko Delivery Service
 * **Add Target** (Button) - add more target town
 * **x** (delete button) - delete target town (will show when target town is more then 1)
 * **Calculate** (Button) - calculate cost from criteria
-* **Result** - will show no of cost in blue box
+* **Result** - will show delivery cost in blue box
 
 #### Calculate the number of possible delivery route
 open web browser http://localhost:3000/deliveryroute
@@ -45,7 +45,7 @@ open web browser http://localhost:3000/deliveryroute
 * **No. of use the same route** (drop down list) - number of use the same route (default is 1)
 * **Enable same to town** (checkbox) - enable/disable can stop when to town (please example note below)
 *  **Calculate** (button) - Calculate number of possible from criteria
-* **Result** - will show no of cost in blue box , Show more detail from **Show Detail** (Button)
+* **Result** - will show number of possible in blue box , Show more detail from **Show Detail** (Button)
 * **Detail List** - will show each delivery route (left) and total cost (right)
 
 ```
@@ -71,7 +71,7 @@ open web browser http://localhost:3000/deliverycheap
 * **From** (drop down list) - select from town
 * **To** (drop down list) - select to town
 *  **Calculate** (button) - Calculate cheapest cost from criteria
-* **Result** - will show no of cost in blue box , Show more detail from **Show Detail** (Button)
+* **Result** - will show cheapest delivery cost in blue box , Show more detail from **Show Detail** (Button)
 * **Detail List** - will show route cheapest cost each step (left) and cost (right)
 
 ### File Structure
